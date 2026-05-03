@@ -1,0 +1,27 @@
+Create a responsive HTML webpage that displays four exercise videos in a Flexbox gallery. 
+Each tile should include a YouTube URL, a title, a two‑line description, and set/rep info. 
+The page must work on mobile and desktop.  Look colourful and professional.  Have the title Foot Exercise Progression.
+Include a <script> tag containing a JSON array with four example items in this format:
+
+json
+{
+  "title": "Toe Walks",
+  "description": "Strengthens foot and ankle stability.\nImproves balance and gait.",
+  "url": "https://www.youtube.com/shorts/1yCk3eDA-Z8",
+  "reps": "2–3 sets × 20–30 seconds"
+}    
+
+The four examples should have the tiles,URLs, description, reps
+
+"Toe Walks", "https://youtube.com/shorts/mcKV3TYe3kk?si=t3YXr4ok6FDvY0d9",  "Walk forward and backwards staying on your toes", "2-3 rounds x 20-30 seconds"
+"Assisted Squat Rockers", "https://www.youtube.com/watch?v=S5xi3PMWosc", "Hold onto support. Drop into squat and gently rock your weight forward towards toes, then back", "2-3 sets x 8-10"
+"Single Leg RDL (Band hold with toe)", "https://youtube.com/shorts/utPI7wLWcCs?si=o33fUIXyKR-SaT0Z", Stand on one leg and hinge forward slightly. Use a light band under the big toe", "2-3 sets x 6-8 each side"
+"Heel Float Split Squat Hold"),"https://youtube.com/shorts/tEKvskuGDcI?si=TpjX4R6HCiserG8m", "In a split squat position, slightly lift the heel of your front foot and hold", "2-3 sets x 15-25 seconds each side"
+
+Add a counter button that stores the result in local storage and keeps and displays of how often I have done the exercise routine in the last 7 days.
+Show the last day I worked out and dont let it be increased twice in the same day.  Put the button at the bottom of the page and make it chunky.
+
+on modiles only show tiny thumbnails for the videos, that can be tap to play and have a slider switch to show full iframed videos.
+We should be able to see a four exercise in a 2x2 grid on a mobile.
+
+Use JavaScript to loop through the JSON and dynamically generate the Flexbox tiles.
