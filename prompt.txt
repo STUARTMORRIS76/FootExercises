@@ -21,7 +21,11 @@ The four examples should have the tiles,URLs, description, reps
 Add a counter button that stores the result in local storage and keeps and displays of how often I have done the exercise routine in the last 7 days.
 Show the last day I worked out and dont let it be increased twice in the same day.  Put the button at the bottom of the page and make it chunky.
 
-on modiles only show tiny thumbnails for the videos, that can be tap to play and have a slider switch to show full iframed videos.
-We should be able to see a four exercise in a 2x2 grid on a mobile.
+on modiles only show tiny thumbnails for the videos, We should be able to see a four exercise in a 2x2 grid on a mobile.  
+that can be tap to play.
+On mobiles have a slider switch to show the videos in a columun rather 2x2, labelled only "Full Screen".
+Make the video as possible when in Full Screen mode.
+
+Have the mobile version have the description collapsible you can expand by pressing on a +.
 
 Use JavaScript to loop through the JSON and dynamically generate the Flexbox tiles.
