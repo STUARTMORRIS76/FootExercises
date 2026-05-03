@@ -24,7 +24,7 @@
 
     .toggle-container {
         text-align: center;
-        padding: 10px;
+        padding: 12px;
         background: #fff;
         font-size: 1.1rem;
     }
@@ -66,13 +66,21 @@
     }
 
     .thumb {
-        height: 160px;
+        height: 90px;
         object-fit: cover;
         cursor: pointer;
     }
 
-    /* MOBILE: show thumbnails only */
+    /* MOBILE: tiny thumbnails + 2x2 grid */
     @media (max-width: 700px) {
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .tile {
+            padding: 8px;
+        }
         .iframe-container {
             display: none;
         }
@@ -81,7 +89,7 @@
         }
     }
 
-    /* DESKTOP: show full videos */
+    /* DESKTOP: full videos */
     @media (min-width: 701px) {
         .thumbnail-container {
             display: none;
