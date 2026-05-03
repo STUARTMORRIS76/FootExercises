@@ -6,162 +6,211 @@
 <title>Foot Exercise Progression</title>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background: linear-gradient(135deg, #e1f5fe, #fce4ec);
-        color: #333;
-    }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #e1f5fe, #fce4ec);
+    color: #333;
+  }
 
-    header {
-        text-align: center;
-        padding: 20px;
-        background: #0288d1;
-        color: white;
-        font-size: 1.8rem;
-        font-weight: bold;
-    }
+  header {
+    text-align: center;
+    padding: 20px;
+    background: #0288d1;
+    color: white;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
 
-    .toggle-container {
-        text-align: center;
-        padding: 12px;
-        background: #fff;
-        font-size: 1.1rem;
-    }
+  /* Slider Switch */
+  .toggle-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #fff;
+  }
 
-    .gallery {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        padding: 16px;
-        justify-content: center;
-    }
+  .switch-label {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 
-    .tile {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        padding: 12px;
-        width: 100%;
-        max-width: 320px;
-        display: flex;
-        flex-direction: column;
-    }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+  }
 
-    .tile h3 {
-        margin: 10px 0 5px;
-        color: #d32f2f;
-        font-size: 1.2rem;
-    }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
 
-    .tile p {
-        margin: 4px 0;
-        line-height: 1.3;
-    }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
 
-    iframe, .thumb {
-        width: 100%;
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
 
-    .thumb {
-        height: 90px;
-        object-fit: cover;
-        cursor: pointer;
-    }
+  input:checked + .slider {
+    background-color: #0288d1;
+  }
 
-    /* MOBILE: tiny thumbnails + 2x2 grid */
-    @media (max-width: 700px) {
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        .tile {
-            padding: 8px;
-        }
-        .iframe-container {
-            display: none;
-        }
-        .thumbnail-container {
-            display: block;
-        }
-    }
+  input:checked + .slider:before {
+    transform: translateX(24px);
+  }
 
-    /* DESKTOP: full videos */
-    @media (min-width: 701px) {
-        .thumbnail-container {
-            display: none;
-        }
-        .iframe-container {
-            display: block;
-        }
-    }
+  /* Gallery */
+  .gallery {
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
 
-    /* Collapsible description */
-    .collapse-btn {
-        background: #ffca28;
-        border: none;
-        padding: 8px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 1rem;
-        margin-bottom: 8px;
-        width: 100%;
-        text-align: left;
-    }
+  .tile {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    padding: 12px;
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .collapse-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.35s ease;
-    }
+  .tile h3 {
+    margin: 8px 0 4px;
+    color: #d32f2f;
+    font-size: 1.1rem;
+  }
 
-    .counter-section {
-        text-align: center;
-        padding: 20px;
-        background: #fff3cd;
-        margin-top: 20px;
-    }
+  iframe, .thumb {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
 
-    #countBtn {
-        background: #43a047;
-        color: white;
-        padding: 20px 30px;
-        border: none;
-        border-radius: 14px;
-        font-size: 1.4rem;
-        cursor: pointer;
-        width: 85%;
-        max-width: 360px;
-        margin-top: 10px;
-    }
+  .thumb {
+    height: 90px;
+    object-fit: cover;
+    cursor: pointer;
+  }
 
-    #countBtn:active {
-        background: #2e7d32;
+  /* Collapsible */
+  .collapse-btn {
+    background: #ffca28;
+    border: none;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    text-align: left;
+    width: 100%;
+  }
+
+  .collapse-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    font-size: 0.9rem;
+  }
+
+  /* Desktop */
+  @media (min-width: 701px) {
+    .thumbnail-container { display: none; }
+    .iframe-container { display: block; }
+    .iframe-container iframe { height: 220px; }
+  }
+
+  /* Mobile: grid/list modes */
+  @media (max-width: 700px) {
+    .gallery.grid-mode {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
+    .gallery.list-mode {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .gallery.grid-mode .thumbnail-container { display: block; }
+    .gallery.grid-mode .iframe-container { display: none; }
+    .gallery.list-mode .thumbnail-container { display: none; }
+    .gallery.list-mode .iframe-container { display: block; }
+    .gallery.list-mode .iframe-container iframe {
+      height: 320px;
+    }
+  }
+
+  /* Counter section */
+  .counter-section {
+    text-align: center;
+    padding: 20px;
+    background: #fff3cd;
+    margin-top: 20px;
+  }
+
+  #countBtn {
+    background: #43a047;
+    color: white;
+    padding: 20px 30px;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    width: 85%;
+    max-width: 360px;
+    margin-top: 10px;
+  }
+
+  #countBtn:active { background: #2e7d32; }
 </style>
 </head>
 
 <body>
-
 <header>Foot Exercise Progression</header>
 
-<div class="toggle-container">
-    <label>
-        <strong>Show full videos:</strong>
-        <input type="checkbox" id="videoToggle">
-    </label>
+<!-- Slider Switch -->
+<div class="toggle-bar">
+  <span class="switch-label">Full Screen</span>
+  <label class="switch">
+    <input type="checkbox" id="layoutToggle">
+    <span class="slider round"></span>
+  </label>
 </div>
 
-<div class="gallery" id="gallery"></div>
+<!-- Gallery -->
+<div class="gallery grid-mode" id="gallery"></div>
 
+<!-- Counter -->
 <div class="counter-section">
-    <h2>Routine Tracker</h2>
-    <p><strong>Times completed in last 7 days:</strong> <span id="weekCount">0</span></p>
-    <p><strong>Last workout:</strong> <span id="lastWorkout">None</span></p>
-    <button id="countBtn">I Did Today’s Routine</button>
+  <h2>Routine Tracker</h2>
+  <p><strong>Times completed in last 7 days:</strong> <span id="weekCount">0</span></p>
+  <p><strong>Last workout:</strong> <span id="lastWorkout">None</span></p>
+  <button id="countBtn">I Did Today’s Routine</button>
 </div>
 
 <!-- JSON ARRAY -->
@@ -195,106 +244,97 @@ const exercises = [
 </script>
 
 <script>
-/* -------------------------
-   BUILD TILES
--------------------------- */
 const gallery = document.getElementById("gallery");
 
+/* Build tiles dynamically */
 exercises.forEach(ex => {
-    const tile = document.createElement("div");
-    tile.className = "tile";
+  const tile = document.createElement("div");
+  tile.className = "tile";
 
-    const videoId =
-        ex.url.includes("v=")
-            ? ex.url.split("v=")[1].split("&")[0]
-            : ex.url.split("/shorts/")[1].split("?")[0];
+  const videoId =
+    ex.url.includes("v=")
+      ? ex.url.split("v=")[1].split("&")[0]
+      : ex.url.split("/shorts/")[1].split("?")[0];
 
-    tile.innerHTML = `
-        <div class="thumbnail-container">
-            <img class="thumb" src="https://img.youtube.com/vi/${videoId}/0.jpg" data-video="${videoId}">
-        </div>
+  tile.innerHTML = `
+    <div class="thumbnail-container">
+      <img class="thumb" src="https://img.youtube.com/vi/${videoId}/0.jpg" data-video="${videoId}">
+    </div>
 
-        <div class="iframe-container">
-            <iframe height="200" src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
-        </div>
+    <div class="iframe-container">
+      <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+    </div>
 
-        <h3>${ex.title}</h3>
+    <h3>${ex.title}</h3>
 
-        <button class="collapse-btn">+ Show details</button>
+    <button class="collapse-btn">+ Details</button>
+    <div class="collapse-content">
+      <p>${ex.description.replace(/\n/g, "<br>")}</p>
+      <p><strong>${ex.reps}</strong></p>
+    </div>
+  `;
 
-        <div class="collapse-content">
-            <p>${ex.description.replace(/\n/g, "<br>")}</p>
-            <p><strong>${ex.reps}</strong></p>
-        </div>
-    `;
-
-    gallery.appendChild(tile);
+  gallery.appendChild(tile);
 });
 
-/* Tap thumbnail to play video */
+/* Tap thumbnail to play */
 document.addEventListener("click", e => {
-    if (e.target.classList.contains("thumb")) {
-        const id = e.target.dataset.video;
-        e.target.outerHTML =
-            `<iframe height="200" src="https://www.youtube.com/embed/${id}?autoplay=1" allowfullscreen></iframe>`;
-    }
+  if (e.target.classList.contains("thumb")) {
+    const id = e.target.dataset.video;
+    e.target.outerHTML =
+      `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allowfullscreen></iframe>`;
+  }
 });
 
-/* Toggle full videos on mobile */
-document.getElementById("videoToggle").addEventListener("change", e => {
-    const show = e.target.checked;
-    document.querySelectorAll(".iframe-container").forEach(div => {
-        div.style.display = show ? "block" : "none";
-    });
+/* Slider switch: 2x2 grid <-> full screen column */
+document.getElementById("layoutToggle").addEventListener("change", e => {
+  if (window.innerWidth <= 700) {
+    gallery.classList.toggle("grid-mode", !e.target.checked);
+    gallery.classList.toggle("list-mode", e.target.checked);
+  }
 });
 
 /* Collapsible descriptions */
 document.addEventListener("click", e => {
-    if (e.target.classList.contains("collapse-btn")) {
-        const content = e.target.nextElementSibling;
-
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-            e.target.textContent = "+ Show details";
-        } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-            e.target.textContent = "− Hide details";
-        }
+  if (e.target.classList.contains("collapse-btn")) {
+    const content = e.target.nextElementSibling;
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+      e.target.textContent = "+ Details";
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+      e.target.textContent = "− Hide";
     }
+  }
 });
 
-/* -------------------------
-   WORKOUT COUNTER
--------------------------- */
+/* Workout counter */
 const weekCountEl = document.getElementById("weekCount");
 const lastWorkoutEl = document.getElementById("lastWorkout");
 const countBtn = document.getElementById("countBtn");
 
 function loadData() {
-    const data = JSON.parse(localStorage.getItem("workoutLog") || "[]");
+  const data = JSON.parse(localStorage.getItem("workoutLog") || "[]");
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
 
-    const today = new Date().toISOString().slice(0,10);
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
-
-    const count = data.filter(d => new Date(d) >= sevenDaysAgo).length;
-    weekCountEl.textContent = count;
-
-    lastWorkoutEl.textContent = data.length ? data[data.length - 1] : "None";
+  const count = data.filter(d => new Date(d) >= sevenDaysAgo).length;
+  weekCountEl.textContent = count;
+  lastWorkoutEl.textContent = data.length ? data[data.length - 1] : "None";
 }
 
 countBtn.addEventListener("click", () => {
-    const today = new Date().toISOString().slice(0,10);
-    let data = JSON.parse(localStorage.getItem("workoutLog") || "[]");
+  const today = new Date().toISOString().slice(0,10);
+  let data = JSON.parse(localStorage.getItem("workoutLog") || "[]");
 
-    if (data.includes(today)) {
-        alert("You've already logged today's workout.");
-        return;
-    }
+  if (data.includes(today)) {
+    alert("You've already logged today's workout.");
+    return;
+  }
 
-    data.push(today);
-    localStorage.setItem("workoutLog", JSON.stringify(data));
-    loadData();
+  data.push(today);
+  localStorage.setItem("workoutLog", JSON.stringify(data));
+  loadData();
 });
 
 loadData();
