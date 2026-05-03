@@ -1,32 +1,304 @@
-Foot Exercise Progression
-Show full videos: 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Foot Exercise Progression</title>
 
-Toe Walks
-− Hide details
-Walk forward and backwards staying on your toes.
-Improves foot strength and balance.
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: linear-gradient(135deg, #e1f5fe, #fce4ec);
+        color: #333;
+    }
 
-2–3 rounds × 20–30 seconds
+    header {
+        text-align: center;
+        padding: 20px;
+        background: #0288d1;
+        color: white;
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
 
+    .toggle-container {
+        text-align: center;
+        padding: 12px;
+        background: #fff;
+        font-size: 1.1rem;
+    }
 
-Assisted Squat Rockers
-+ Show details
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        padding: 16px;
+        justify-content: center;
+    }
 
+    .tile {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        padding: 12px;
+        width: 100%;
+        max-width: 320px;
+        display: flex;
+        flex-direction: column;
+    }
 
+    .tile h3 {
+        margin: 10px 0 5px;
+        color: #d32f2f;
+        font-size: 1.2rem;
+    }
 
-Single Leg RDL (Band hold with toe)
-+ Show details
+    .tile p {
+        margin: 4px 0;
+        line-height: 1.3;
+    }
 
+    iframe, .thumb {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
 
+    .thumb {
+        height: 90px;
+        object-fit: cover;
+        cursor: pointer;
+    }
 
+    /* MOBILE: tiny thumbnails + 2x2 grid */
+    @media (max-width: 700px) {
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .tile {
+            padding: 8px;
+        }
+        .iframe-container {
+            display: none;
+        }
+        .thumbnail-container {
+            display: block;
+        }
+    }
 
-Heel Float Split Squat Hold
-+ Show details
+    /* DESKTOP: full videos */
+    @media (min-width: 701px) {
+        .thumbnail-container {
+            display: none;
+        }
+        .iframe-container {
+            display: block;
+        }
+    }
 
+    /* Collapsible description */
+    .collapse-btn {
+        background: #ffca28;
+        border: none;
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-bottom: 8px;
+        width: 100%;
+        text-align: left;
+    }
 
-Routine Tracker
-Times completed in last 7 days: 0
+    .collapse-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+    }
 
-Last workout: None
+    .counter-section {
+        text-align: center;
+        padding: 20px;
+        background: #fff3cd;
+        margin-top: 20px;
+    }
 
-I Did Today’s Routine
+    #countBtn {
+        background: #43a047;
+        color: white;
+        padding: 20px 30px;
+        border: none;
+        border-radius: 14px;
+        font-size: 1.4rem;
+        cursor: pointer;
+        width: 85%;
+        max-width: 360px;
+        margin-top: 10px;
+    }
+
+    #countBtn:active {
+        background: #2e7d32;
+    }
+</style>
+</head>
+
+<body>
+
+<header>Foot Exercise Progression</header>
+
+<div class="toggle-container">
+    <label>
+        <strong>Show full videos:</strong>
+        <input type="checkbox" id="videoToggle">
+    </label>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<div class="counter-section">
+    <h2>Routine Tracker</h2>
+    <p><strong>Times completed in last 7 days:</strong> <span id="weekCount">0</span></p>
+    <p><strong>Last workout:</strong> <span id="lastWorkout">None</span></p>
+    <button id="countBtn">I Did Today’s Routine</button>
+</div>
+
+<!-- JSON ARRAY -->
+<script>
+const exercises = [
+  {
+    "title": "Toe Walks",
+    "description": "Walk forward and backwards staying on your toes.\nImproves foot strength and balance.",
+    "url": "https://youtube.com/shorts/mcKV3TYe3kk?si=t3YXr4ok6FDvY0d9",
+    "reps": "2–3 rounds × 20–30 seconds"
+  },
+  {
+    "title": "Assisted Squat Rockers",
+    "description": "Hold onto support. Drop into squat and gently rock your weight forward towards toes, then back.",
+    "url": "https://www.youtube.com/watch?v=S5xi3PMWosc",
+    "reps": "2–3 sets × 8–10"
+  },
+  {
+    "title": "Single Leg RDL (Band hold with toe)",
+    "description": "Stand on one leg and hinge forward slightly.\nUse a light band under the big toe.",
+    "url": "https://youtube.com/shorts/utPI7wLWcCs?si=o33fUIXyKR-SaT0Z",
+    "reps": "2–3 sets × 6–8 each side"
+  },
+  {
+    "title": "Heel Float Split Squat Hold",
+    "description": "In a split squat position, slightly lift the heel of your front foot and hold.",
+    "url": "https://youtube.com/shorts/tEKvskuGDcI?si=TpjX4R6HCiserG8m",
+    "reps": "2–3 sets × 15–25 seconds each side"
+  }
+];
+</script>
+
+<script>
+/* -------------------------
+   BUILD TILES
+-------------------------- */
+const gallery = document.getElementById("gallery");
+
+exercises.forEach(ex => {
+    const tile = document.createElement("div");
+    tile.className = "tile";
+
+    const videoId =
+        ex.url.includes("v=")
+            ? ex.url.split("v=")[1].split("&")[0]
+            : ex.url.split("/shorts/")[1].split("?")[0];
+
+    tile.innerHTML = `
+        <div class="thumbnail-container">
+            <img class="thumb" src="https://img.youtube.com/vi/${videoId}/0.jpg" data-video="${videoId}">
+        </div>
+
+        <div class="iframe-container">
+            <iframe height="200" src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+        </div>
+
+        <h3>${ex.title}</h3>
+
+        <button class="collapse-btn">+ Show details</button>
+
+        <div class="collapse-content">
+            <p>${ex.description.replace(/\n/g, "<br>")}</p>
+            <p><strong>${ex.reps}</strong></p>
+        </div>
+    `;
+
+    gallery.appendChild(tile);
+});
+
+/* Tap thumbnail to play video */
+document.addEventListener("click", e => {
+    if (e.target.classList.contains("thumb")) {
+        const id = e.target.dataset.video;
+        e.target.outerHTML =
+            `<iframe height="200" src="https://www.youtube.com/embed/${id}?autoplay=1" allowfullscreen></iframe>`;
+    }
+});
+
+/* Toggle full videos on mobile */
+document.getElementById("videoToggle").addEventListener("change", e => {
+    const show = e.target.checked;
+    document.querySelectorAll(".iframe-container").forEach(div => {
+        div.style.display = show ? "block" : "none";
+    });
+});
+
+/* Collapsible descriptions */
+document.addEventListener("click", e => {
+    if (e.target.classList.contains("collapse-btn")) {
+        const content = e.target.nextElementSibling;
+
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+            e.target.textContent = "+ Show details";
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+            e.target.textContent = "− Hide details";
+        }
+    }
+});
+
+/* -------------------------
+   WORKOUT COUNTER
+-------------------------- */
+const weekCountEl = document.getElementById("weekCount");
+const lastWorkoutEl = document.getElementById("lastWorkout");
+const countBtn = document.getElementById("countBtn");
+
+function loadData() {
+    const data = JSON.parse(localStorage.getItem("workoutLog") || "[]");
+
+    const today = new Date().toISOString().slice(0,10);
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+
+    const count = data.filter(d => new Date(d) >= sevenDaysAgo).length;
+    weekCountEl.textContent = count;
+
+    lastWorkoutEl.textContent = data.length ? data[data.length - 1] : "None";
+}
+
+countBtn.addEventListener("click", () => {
+    const today = new Date().toISOString().slice(0,10);
+    let data = JSON.parse(localStorage.getItem("workoutLog") || "[]");
+
+    if (data.includes(today)) {
+        alert("You've already logged today's workout.");
+        return;
+    }
+
+    data.push(today);
+    localStorage.setItem("workoutLog", JSON.stringify(data));
+    loadData();
+});
+
+loadData();
+</script>
+
+</body>
+</html>
