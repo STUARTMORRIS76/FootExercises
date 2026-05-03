@@ -9,315 +9,248 @@
     body {
         font-family: Arial, sans-serif;
         margin: 0;
+        background: linear-gradient(135deg, #e1f5fe, #fce4ec);
+        color: #333;
+    }
+
+    header {
+        text-align: center;
         padding: 20px;
-        background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
+        background: #0288d1;
+        color: white;
+        font-size: 1.8rem;
+        font-weight: bold;
     }
 
-    h1 {
+    .toggle-container {
         text-align: center;
-        font-size: 2.2rem;
-        color: #222;
-        margin-bottom: 20px;
-        font-weight: 700;
-    }
-
-    /* Slider switch container */
-    #toggleContainer {
-        text-align: center;
-        margin-bottom: 20px;
+        padding: 10px;
+        background: #fff;
         font-size: 1.1rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-    }
-
-    /* Slider switch styling */
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 55px;
-        height: 28px;
-    }
-
-    .switch input { display: none; }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0; left: 0;
-        right: 0; bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 34px;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 22px;
-        width: 22px;
-        left: 3px;
-        bottom: 3px;
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-    }
-
-    input:checked + .slider {
-        background-color: #0077aa;
-    }
-
-    input:checked + .slider:before {
-        transform: translateX(26px);
     }
 
     .gallery {
         display: flex;
         flex-wrap: wrap;
+        gap: 16px;
+        padding: 16px;
         justify-content: center;
-        gap: 25px;
-        flex-grow: 1;
     }
 
     .tile {
-        background: #ffffff;
-        border-radius: 14px;
-        width: 300px;
-        padding: 15px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .tile:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-    }
-
-    iframe {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        padding: 12px;
         width: 100%;
-        height: 200px;
-        border-radius: 10px;
-        border: none;
-        display: block;
+        max-width: 320px;
+        display: flex;
+        flex-direction: column;
     }
 
-    .thumbnail {
+    .tile h3 {
+        margin: 10px 0 5px;
+        color: #d32f2f;
+        font-size: 1.2rem;
+    }
+
+    .tile p {
+        margin: 4px 0;
+        line-height: 1.3;
+    }
+
+    iframe, .thumb {
         width: 100%;
-        height: 200px;
         border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .thumb {
+        height: 160px;
         object-fit: cover;
         cursor: pointer;
-        display: none;
     }
 
-    /* MOBILE: show thumbnails by default */
-    @media (max-width: 600px) {
-        iframe {
+    /* MOBILE: show thumbnails only */
+    @media (max-width: 700px) {
+        .iframe-container {
             display: none;
         }
-        .thumbnail {
+        .thumbnail-container {
             display: block;
         }
     }
 
-    .title {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin-top: 10px;
-        color: #222;
+    /* DESKTOP: show full videos */
+    @media (min-width: 701px) {
+        .thumbnail-container {
+            display: none;
+        }
+        .iframe-container {
+            display: block;
+        }
     }
 
-    .desc {
-        font-size: 0.95rem;
-        color: #555;
-        margin-top: 6px;
-        line-height: 1.3;
-    }
-
-    .reps {
-        margin-top: 10px;
-        font-weight: bold;
-        color: #d35400;
-    }
-
-    /* Chunky bottom button section */
-    #counterSection {
+    .counter-section {
         text-align: center;
-        margin-top: 30px;
         padding: 20px;
-        background: #ffffffcc;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        background: #fff3cd;
+        margin-top: 20px;
     }
 
-    #countDisplay, #lastWorkout {
-        font-size: 1.1rem;
-        margin-bottom: 10px;
-    }
-
-    #addCountBtn {
-        padding: 18px 30px;
-        font-size: 1.3rem;
-        background: #0077aa;
+    #countBtn {
+        background: #43a047;
         color: white;
+        padding: 20px 30px;
         border: none;
-        border-radius: 12px;
+        border-radius: 14px;
+        font-size: 1.4rem;
         cursor: pointer;
-        width: 80%;
-        max-width: 350px;
-        font-weight: bold;
+        width: 85%;
+        max-width: 360px;
+        margin-top: 10px;
     }
 
-    #addCountBtn:hover {
-        background: #005f88;
-    }
-
-    #addCountBtn:disabled {
-        background: #999;
-        cursor: not-allowed;
+    #countBtn:active {
+        background: #2e7d32;
     }
 </style>
 </head>
 
 <body>
 
-<h1>Foot Exercise Progression</h1>
+<header>Foot Exercise Progression</header>
 
-<div id="toggleContainer">
-    Show full videos on mobile
-    <label class="switch">
+<div class="toggle-container">
+    <label>
+        <strong>Show full videos:</strong>
         <input type="checkbox" id="videoToggle">
-        <span class="slider"></span>
     </label>
 </div>
 
 <div class="gallery" id="gallery"></div>
 
-<!-- Chunky bottom counter section -->
-<div id="counterSection">
-    <div id="countDisplay">Completed in last 7 days: 0</div>
-    <div id="lastWorkout">Last workout: —</div>
-    <button id="addCountBtn">Completed Today</button>
+<div class="counter-section">
+    <h2>Routine Tracker</h2>
+    <p><strong>Times completed in last 7 days:</strong> <span id="weekCount">0</span></p>
+    <p><strong>Last workout:</strong> <span id="lastWorkout">None</span></p>
+    <button id="countBtn">I Did Today’s Routine</button>
 </div>
 
-<!-- JSON DATA BLOCK -->
+<!-- JSON ARRAY -->
 <script>
-const exerciseData = [
-    {
-        "title": "Toe Walks",
-        "description": "Walk forward and backwards staying on your toes.\nKeep posture tall and controlled.",
-        "url": "https://youtube.com/shorts/mcKV3TYe3kk?si=t3YXr4ok6FDvY0d9",
-        "reps": "2–3 rounds × 20–30 seconds"
-    },
-    {
-        "title": "Assisted Squat Rockers",
-        "description": "Hold onto support. Drop into squat.\nGently rock weight forward then back.",
-        "url": "https://www.youtube.com/watch?v=S5xi3PMWosc",
-        "reps": "2–3 sets × 8–10"
-    },
-    {
-        "title": "Single Leg RDL (Band hold with toe)",
-        "description": "Stand on one leg and hinge forward.\nUse a light band under the big toe.",
-        "url": "https://youtube.com/shorts/utPI7wLWcCs?si=o33fUIXyKR-SaT0Z",
-        "reps": "2–3 sets × 6–8 each side"
-    },
-    {
-        "title": "Heel Float Split Squat Hold",
-        "description": "In a split squat, slightly lift front heel.\nHold position while staying balanced.",
-        "url": "https://youtube.com/shorts/tEKvskuGDcI?si=TpjX4R6HCiserG8m",
-        "reps": "2–3 sets × 15–25 seconds each side"
-    }
+const exercises = [
+  {
+    "title": "Toe Walks",
+    "description": "Walk forward and backwards staying on your toes.\nImproves foot strength and balance.",
+    "url": "https://youtube.com/shorts/mcKV3TYe3kk?si=t3YXr4ok6FDvY0d9",
+    "reps": "2–3 rounds × 20–30 seconds"
+  },
+  {
+    "title": "Assisted Squat Rockers",
+    "description": "Hold onto support. Drop into squat and gently rock your weight forward towards toes, then back.",
+    "url": "https://www.youtube.com/watch?v=S5xi3PMWosc",
+    "reps": "2–3 sets × 8–10"
+  },
+  {
+    "title": "Single Leg RDL (Band hold with toe)",
+    "description": "Stand on one leg and hinge forward slightly.\nUse a light band under the big toe.",
+    "url": "https://youtube.com/shorts/utPI7wLWcCs?si=o33fUIXyKR-SaT0Z",
+    "reps": "2–3 sets × 6–8 each side"
+  },
+  {
+    "title": "Heel Float Split Squat Hold",
+    "description": "In a split squat position, slightly lift the heel of your front foot and hold.",
+    "url": "https://youtube.com/shorts/tEKvskuGDcI?si=TpjX4R6HCiserG8m",
+    "reps": "2–3 sets × 15–25 seconds each side"
+  }
 ];
+</script>
 
-// Render tiles dynamically
+<script>
+/* -------------------------
+   BUILD TILES
+-------------------------- */
 const gallery = document.getElementById("gallery");
 
-exerciseData.forEach(item => {
+exercises.forEach(ex => {
     const tile = document.createElement("div");
     tile.className = "tile";
 
-    const videoId = item.url.split("/").pop().split("?")[0];
-    const embedUrl = item.url
-        .replace("shorts/", "embed/")
-        .replace("watch?v=", "embed/")
-        .split("?")[0];
+    const videoId =
+        ex.url.includes("v=")
+            ? ex.url.split("v=")[1].split("&")[0]
+            : ex.url.split("/shorts/")[1].split("?")[0];
 
     tile.innerHTML = `
-        <img class="thumbnail" src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="${item.title} thumbnail">
-        <iframe src="${embedUrl}" allowfullscreen></iframe>
-        <div class="title">${item.title}</div>
-        <div class="desc">${item.description.replace(/\n/g, "<br>")}</div>
-        <div class="reps">${item.reps}</div>
+        <div class="thumbnail-container">
+            <img class="thumb" src="https://img.youtube.com/vi/${videoId}/0.jpg" data-video="${videoId}">
+        </div>
+
+        <div class="iframe-container">
+            <iframe height="200" src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+        </div>
+
+        <h3>${ex.title}</h3>
+        <p>${ex.description.replace(/\n/g, "<br>")}</p>
+        <p><strong>${ex.reps}</strong></p>
     `;
 
     gallery.appendChild(tile);
+});
 
-    // Tap-to-play thumbnails
-    tile.querySelector(".thumbnail").addEventListener("click", () => {
-        tile.querySelector("iframe").style.display = "block";
-        tile.querySelector(".thumbnail").style.display = "none";
+/* Tap thumbnail to play video */
+document.addEventListener("click", e => {
+    if (e.target.classList.contains("thumb")) {
+        const id = e.target.dataset.video;
+        e.target.outerHTML =
+            `<iframe height="200" src="https://www.youtube.com/embed/${id}?autoplay=1" allowfullscreen></iframe>`;
+    }
+});
+
+/* Toggle full videos on mobile */
+document.getElementById("videoToggle").addEventListener("change", e => {
+    const show = e.target.checked;
+    document.querySelectorAll(".iframe-container").forEach(div => {
+        div.style.display = show ? "block" : "none";
     });
 });
 
-// ---------------------------
-// 7‑DAY COUNTER + LAST WORKOUT
-// ---------------------------
-const countDisplay = document.getElementById("countDisplay");
-const lastWorkout = document.getElementById("lastWorkout");
-const addCountBtn = document.getElementById("addCountBtn");
+/* -------------------------
+   WORKOUT COUNTER
+-------------------------- */
+const weekCountEl = document.getElementById("weekCount");
+const lastWorkoutEl = document.getElementById("lastWorkout");
+const countBtn = document.getElementById("countBtn");
 
-function loadCounts() {
-    const stored = JSON.parse(localStorage.getItem("exerciseLog") || "[]");
-    const now = new Date();
-    const today = now.toISOString().split("T")[0];
-    const sevenDaysAgo = now.getTime() - (7 * 24 * 60 * 60 * 1000);
+function loadData() {
+    const data = JSON.parse(localStorage.getItem("workoutLog") || "[]");
 
-    const recent = stored.filter(date => new Date(date).getTime() >= sevenDaysAgo);
-    countDisplay.textContent = "Completed in last 7 days: " + recent.length;
+    const today = new Date().toISOString().slice(0,10);
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
 
-    if (stored.length > 0) {
-        const last = stored[stored.length - 1].split("T")[0];
-        lastWorkout.textContent = "Last workout: " + last;
-        if (last === today) {
-            addCountBtn.disabled = true;
-            addCountBtn.textContent = "Already completed today";
-        }
-    }
+    const count = data.filter(d => new Date(d) >= sevenDaysAgo).length;
+    weekCountEl.textContent = count;
+
+    lastWorkoutEl.textContent = data.length ? data[data.length - 1] : "None";
 }
 
-addCountBtn.addEventListener("click", () => {
-    const stored = JSON.parse(localStorage.getItem("exerciseLog") || "[]");
-    const today = new Date().toISOString().split("T")[0];
+countBtn.addEventListener("click", () => {
+    const today = new Date().toISOString().slice(0,10);
+    let data = JSON.parse(localStorage.getItem("workoutLog") || "[]");
 
-    if (stored.some(date => date.startsWith(today))) return;
-
-    stored.push(new Date().toISOString());
-    localStorage.setItem("exerciseLog", JSON.stringify(stored));
-    loadCounts();
-});
-
-loadCounts();
-
-// ---------------------------
-// MOBILE TOGGLE: Show full videos
-// ---------------------------
-document.getElementById("videoToggle").addEventListener("change", function () {
-    const showVideos = this.checked;
-    const iframes = document.querySelectorAll("iframe");
-    const thumbs = document.querySelectorAll(".thumbnail");
-
-    if (showVideos) {
-        iframes.forEach(f => f.style.display = "block");
-        thumbs.forEach(t => t.style.display = "none");
-    } else {
-        iframes.forEach(f => f.style.display = "");
-        thumbs.forEach(t => t.style.display = "");
+    if (data.includes(today)) {
+        alert("You've already logged today's workout.");
+        return;
     }
+
+    data.push(today);
+    localStorage.setItem("workoutLog", JSON.stringify(data));
+    loadData();
 });
+
+loadData();
 </script>
 
 </body>
