@@ -24,6 +24,57 @@
         font-weight: 700;
     }
 
+    /* Slider switch container */
+    #toggleContainer {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* Slider switch styling */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 55px;
+        height: 28px;
+    }
+
+    .switch input { display: none; }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0; left: 0;
+        right: 0; bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .slider {
+        background-color: #0077aa;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+
     .gallery {
         display: flex;
         flex-wrap: wrap;
@@ -51,6 +102,26 @@
         height: 200px;
         border-radius: 10px;
         border: none;
+        display: block;
+    }
+
+    .thumbnail {
+        width: 100%;
+        height: 200px;
+        border-radius: 10px;
+        object-fit: cover;
+        cursor: pointer;
+        display: none;
+    }
+
+    /* MOBILE: show thumbnails by default */
+    @media (max-width: 600px) {
+        iframe {
+            display: none;
+        }
+        .thumbnail {
+            display: block;
+        }
     }
 
     .title {
@@ -116,6 +187,14 @@
 
 <h1>Foot Exercise Progression</h1>
 
+<div id="toggleContainer">
+    Show full videos on mobile
+    <label class="switch">
+        <input type="checkbox" id="videoToggle">
+        <span class="slider"></span>
+    </label>
+</div>
+
 <div class="gallery" id="gallery"></div>
 
 <!-- Chunky bottom counter section -->
@@ -161,12 +240,14 @@ exerciseData.forEach(item => {
     const tile = document.createElement("div");
     tile.className = "tile";
 
-    let embedUrl = item.url
+    const videoId = item.url.split("/").pop().split("?")[0];
+    const embedUrl = item.url
         .replace("shorts/", "embed/")
-        .replace("watch?v=", "embed/");
-    embedUrl = embedUrl.split("?")[0];
+        .replace("watch?v=", "embed/")
+        .split("?")[0];
 
     tile.innerHTML = `
+        <img class="thumbnail" src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="${item.title} thumbnail">
         <iframe src="${embedUrl}" allowfullscreen></iframe>
         <div class="title">${item.title}</div>
         <div class="desc">${item.description.replace(/\n/g, "<br>")}</div>
@@ -174,6 +255,12 @@ exerciseData.forEach(item => {
     `;
 
     gallery.appendChild(tile);
+
+    // Tap-to-play thumbnails
+    tile.querySelector(".thumbnail").addEventListener("click", () => {
+        tile.querySelector("iframe").style.display = "block";
+        tile.querySelector(".thumbnail").style.display = "none";
+    });
 });
 
 // ---------------------------
@@ -200,8 +287,6 @@ function loadCounts() {
             addCountBtn.textContent = "Already completed today";
         }
     }
-
-    localStorage.setItem("exerciseLog", JSON.stringify(stored));
 }
 
 addCountBtn.addEventListener("click", () => {
@@ -216,6 +301,23 @@ addCountBtn.addEventListener("click", () => {
 });
 
 loadCounts();
+
+// ---------------------------
+// MOBILE TOGGLE: Show full videos
+// ---------------------------
+document.getElementById("videoToggle").addEventListener("change", function () {
+    const showVideos = this.checked;
+    const iframes = document.querySelectorAll("iframe");
+    const thumbs = document.querySelectorAll(".thumbnail");
+
+    if (showVideos) {
+        iframes.forEach(f => f.style.display = "block");
+        thumbs.forEach(t => t.style.display = "none");
+    } else {
+        iframes.forEach(f => f.style.display = "");
+        thumbs.forEach(t => t.style.display = "");
+    }
+});
 </script>
 
 </body>
